@@ -5,7 +5,7 @@
 - **files:**
   - `backend/app.py` — Flask app
   - `backend/Dockerfile` — image description
-  - `backend/requirements.yaml` — dependencies for pip
+  - `backend/requirements.txt` — dependencies for pip
 ### Local run for test
 ```bash
 docker build -t flask_app ./backend
