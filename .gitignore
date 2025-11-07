@@ -13,3 +13,6 @@ crash.log
 
 # docker-compose env file
 .env
+# ssl cert
+ssl/*
+!ssl/.gitkeep
