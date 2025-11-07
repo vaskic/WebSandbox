@@ -1,0 +1,44 @@
+---
+- name: Deploy WebSandbox stack
+  hosts: all
+  connection: local
+    #  become: true
+
+  vars:
+    #    project_path: "/home/vaskic/git/WebSandbox"
+    project_path: "{{ playbook_dir }}/.."
+    flask_image_name: "flask_app"
+    docker_compose_file: "{{ project_path }}/docker-compose.yaml"
+    ssl_path: "{{ project_path }}/ssl"
+
+  tasks:
+    - name: Create SSL directory
+      file:
+        path: "{{ ssl_path }}"
+        state: directory
+        mode: "0755"
+
+    - name: Generate self-signed SSL certificate
+      command: >
+        openssl req -x509 -nodes -days 365
+        -newkey rsa:2048
+        -keyout {{ ssl_path }}/selfsigned.key
+        -out {{ ssl_path }}/selfsigned.crt
+        -subj "/CN=websandbox.local"
+      args:
+        creates: "{{ ssl_path }}/selfsigned.crt"
+
+    - name: Build Flask backend image
+      community.docker.docker_image:
+        build:
+          path: "{{ project_path }}/../backend"
+        name: "{{ flask_image_name }}"
+        source: build
+        tag: latest
+
+    - name: Deploy Docker Compose stack
+      community.docker.docker_compose:
+        project_src: "{{ project_path }}"
+        state: present
+        restarted: true
+

@@ -1,4 +1,33 @@
-# WebSandbox
+# WebSandbox Deployment
+## Prerequisites
+ - Docker, Docker compose  and Terraform installed localy
+ - Ansible with community.docker collection
+```bash
+ansible-galaxy collection install community.docker
+```
+ - add following lines into /etc/hosts:
+```bash
+127.0.0.1 websandbox.local
+127.0.0.1 static.local
+```
+
+## Start
+Run from the main folder of the project
+```bash
+ansible-playbook -i ansible/inventory.yaml ansible/playbook.yaml
+```
+ - create ssl folder and generate self-signed certificate
+ - build Flask backend image
+ - run Docker compose stack with 3 containers `postgres`, `flask_app`, `nginx_web`
+
+## Test localy
+### Frontend test:
+curl -k https://websandbox.local:8080
+curl -k https://static.local:8080
+### Flash backend test
+curl http://localhost:5000
+
+
 
 ## Flask framework
 - **Flask** - framework
