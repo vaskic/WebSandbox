@@ -31,3 +31,24 @@ docker network ls
 docker volume ls
 ```
 
+## Postgres
+ - `docker-compose.yaml` - Docker Compose configuration for Postgres
+ - `.env` variables file ignored by git
+
+### .env file content
+```bash
+POSTGRES_USER=user
+POSTGRES_PASSWORD=<postgres password>
+POSTGRES_DB=websandbox
+DATABASE_URL=postgresql://user:<postgres password>@postgres_db:5432/websandbox
+```
+
+#### run
+```bash
+docker-compose -f docker-compose.yaml up -d
+```
+#### check
+```bash
+docker ps
+```
+

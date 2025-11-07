@@ -11,4 +11,5 @@ crash.log
 # Lock file
 .terraform.lock.hcl
 
-
+# docker-compose env file
+.env
