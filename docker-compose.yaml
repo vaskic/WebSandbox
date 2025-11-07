@@ -11,7 +11,33 @@ services:
       - websandbox_net
     volumes:
       - websandbox_pgdata:/var/lib/postgresql/data
-        
+
+  backend:
+    build: ./backend
+    container_name: flask_app
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+    networks:
+      - websandbox_net
+    depends_on:
+      - postgres
+    ports:
+      - "5000:5000"
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx_web
+    ports:
+      - "8080:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/html:/usr/share/nginx/html
+      - ./ssl:/etc/nginx/ssl
+    networks:
+      - websandbox_net 
+    depends_on:
+      - backend
+
 # Network and volume are already created by tf
 networks:
   websandbox_net:
