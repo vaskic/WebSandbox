@@ -23,9 +23,11 @@ ansible-playbook -i ansible/inventory.yaml ansible/playbook.yaml
 ## Test localy
 ### Frontend test:
 curl -k https://websandbox.local:8080
+
 curl -k https://static.local:8080
 ### Flash backend test
 curl -k https://websandbox.local:8080/api/
+
 curl http://localhost:5000
 
 
